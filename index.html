@@ -4,35 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>3D Point Visualizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="controls">
-            <div class="control-group">
-                <label for="pointRadius">Point Radius:</label>
-                <input type="range" id="pointRadius" min="0.01" max="0.1" step="0.01" value="0.03">
-                <span id="radiusValue">0.03</span>
+            <div class="buttons-section">
+                <h3 class="group-title">Shape</h3>
+                <div class="radio-group">
+                    <label class="radio-option">
+                        <input type="radio" name="shapeType" value="blobs" checked>
+                        <span class="radio-custom">Blobs</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="shapeType" value="ripples">
+                        <span class="radio-custom">Ripples</span>
+                    </label>
+                    <label class="radio-option">
+                        <input type="radio" name="shapeType" value="waves">
+                        <span class="radio-custom">Waves</span>
+                    </label>
+                </div>
             </div>
             
-            <div class="control-group">
-                <label for="numPoints">Number of Points:</label>
-                <input type="range" id="numPoints" min="100" max="10000" step="100" value="5000">
-                <span id="pointsValue">5000</span>
-            </div>
-            
-            <div class="control-group">
-                <label for="shape">Shape:</label>
-                <input type="range" id="shape" min="0" max="1" step="0.01" value="0.5">
-                <span id="shapeValue">0.5</span>
-            </div>
-            
-            <button id="newShapeBtn" class="new-shape-btn">Blobs</button>
-            <button id="ripplesBtn" class="new-shape-btn">Ripples</button>
-            
-            <div class="mode-buttons">
-                <button id="drawModeBtn" class="mode-btn">Draw Mode</button>
-                <button id="viewModeBtn" class="mode-btn">View Mode</button>
+            <div class="sliders-section">
+                <h3 class="group-title">Tuning</h3>
+                <div class="control-group">
+                    <label for="pointRadius">Size</label>
+                    <input type="range" id="pointRadius" min="0.01" max="0.1" step="0.01" value="0.03">
+                </div>
+                
+                <div class="control-group">
+                    <label for="numPoints">Points</label>
+                    <input type="range" id="numPoints" min="100" max="10000" step="100" value="5000">
+                </div>
+                
+                <div class="control-group">
+                    <label for="shape">Form</label>
+                    <input type="range" id="shape" min="0" max="1" step="0.01" value="0.5">
+                </div>
             </div>
         </div>
         

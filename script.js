@@ -13,6 +13,8 @@ class PointVisualizer {
         this.currentMode = 'sphere'; // Track current visualization mode
         this.blobIndex = 0; // Track current blob shape
         this.currentBlobType = 'distortedSphere'; // Track current blob type
+        this.waveIndex = 0; // Track current wave shape
+        this.currentWaveType = 'sineWave'; // Track current wave type
         this.isMouseDown = false;
         this.mouseX = 0;
         this.mouseY = 0;
@@ -132,6 +134,428 @@ class PointVisualizer {
         this.blobIndex++;
     }
     
+    generateWaves() {
+        // Set mode to waves
+        this.currentMode = 'waves';
+        
+        // Remove existing points
+        if (this.points) {
+            this.scene.remove(this.points);
+        }
+        
+        // Create a group to hold all the spheres
+        this.points = new THREE.Group();
+        
+        // Create sphere geometry and material once for efficiency
+        const sphereGeometry = new THREE.SphereGeometry(this.pointRadius, 8, 6);
+        const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        
+        // Cycle through different wave variations based on shape slider
+        const waveVariations = [
+            'sineWave', 'cosineWave', 'squareWave', 'triangleWave', 'sawtoothWave',
+            'doubleWave', 'interferenceWave', 'standingWave', 'travelingWave', 'modulatedWave',
+            'harmonicWave', 'chaoticWave', 'spiralWave', 'radialWave', 'concentricWave',
+            'crossWave', 'organicWave', 'geometricWave', 'nebulaWave', 'cosmicWave'
+        ];
+        const currentVariation = waveVariations[this.waveIndex % waveVariations.length];
+        
+        // Store the current wave type before any potential index changes
+        this.currentWaveType = currentVariation;
+        
+        console.log('Generating wave variation:', currentVariation);
+        
+        for (let i = 0; i < this.numPoints; i++) {
+            let x, y, z;
+            
+            switch (currentVariation) {
+                case 'sineWave':
+                    ({ x, y, z } = this.generateSineWave(i, this.numPoints));
+                    break;
+                case 'cosineWave':
+                    ({ x, y, z } = this.generateCosineWave(i, this.numPoints));
+                    break;
+                case 'squareWave':
+                    ({ x, y, z } = this.generateSquareWave(i, this.numPoints));
+                    break;
+                case 'triangleWave':
+                    ({ x, y, z } = this.generateTriangleWave(i, this.numPoints));
+                    break;
+                case 'sawtoothWave':
+                    ({ x, y, z } = this.generateSawtoothWave(i, this.numPoints));
+                    break;
+                case 'doubleWave':
+                    ({ x, y, z } = this.generateDoubleWave(i, this.numPoints));
+                    break;
+                case 'interferenceWave':
+                    ({ x, y, z } = this.generateInterferenceWave(i, this.numPoints));
+                    break;
+                case 'standingWave':
+                    ({ x, y, z } = this.generateStandingWave(i, this.numPoints));
+                    break;
+                case 'travelingWave':
+                    ({ x, y, z } = this.generateTravelingWave(i, this.numPoints));
+                    break;
+                case 'modulatedWave':
+                    ({ x, y, z } = this.generateModulatedWave(i, this.numPoints));
+                    break;
+                case 'harmonicWave':
+                    ({ x, y, z } = this.generateHarmonicWave(i, this.numPoints));
+                    break;
+                case 'chaoticWave':
+                    ({ x, y, z } = this.generateChaoticWave(i, this.numPoints));
+                    break;
+                case 'spiralWave':
+                    ({ x, y, z } = this.generateSpiralWave(i, this.numPoints));
+                    break;
+                case 'radialWave':
+                    ({ x, y, z } = this.generateRadialWave(i, this.numPoints));
+                    break;
+                case 'concentricWave':
+                    ({ x, y, z } = this.generateConcentricWave(i, this.numPoints));
+                    break;
+                case 'crossWave':
+                    ({ x, y, z } = this.generateCrossWave(i, this.numPoints));
+                    break;
+                case 'organicWave':
+                    ({ x, y, z } = this.generateOrganicWave(i, this.numPoints));
+                    break;
+                case 'geometricWave':
+                    ({ x, y, z } = this.generateGeometricWave(i, this.numPoints));
+                    break;
+                case 'nebulaWave':
+                    ({ x, y, z } = this.generateNebulaWave(i, this.numPoints));
+                    break;
+                case 'cosmicWave':
+                    ({ x, y, z } = this.generateCosmicWave(i, this.numPoints));
+                    break;
+            }
+            
+            // Create individual sphere mesh
+            const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            sphere.position.set(x, y, z);
+            this.points.add(sphere);
+        }
+        
+        this.scene.add(this.points);
+    }
+    
+    generateSineWave(index, totalPoints) {
+        // Create stacked lines like Joy Division Unknown Pleasures
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10 (stacked lines)
+        const x = Math.sin(z * 0.5) * 8; // Wave amplitude
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateCosineWave(index, totalPoints) {
+        // Create stacked lines with cosine wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const x = Math.cos(z * 0.5) * 8; // Cosine wave amplitude
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateSquareWave(index, totalPoints) {
+        // Create stacked lines with square wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const x = Math.sign(Math.sin(z * 0.5)) * 6; // Square wave
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateTriangleWave(index, totalPoints) {
+        // Create stacked lines with triangle wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const phase = (z * 0.5) % (2 * Math.PI);
+        const x = (phase < Math.PI ? phase : 2 * Math.PI - phase) * 2 - Math.PI; // Triangle wave
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateSawtoothWave(index, totalPoints) {
+        // Create stacked lines with sawtooth wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const x = ((z * 0.5) % (2 * Math.PI) - Math.PI) * 1.5; // Sawtooth wave
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateDoubleWave(index, totalPoints) {
+        // Create stacked lines with double wave interference
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const wave1 = Math.sin(z * 0.5) * 4;
+        const wave2 = Math.sin(z * 0.8) * 3;
+        const x = wave1 + wave2; // Combined waves
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateInterferenceWave(index, totalPoints) {
+        // Create stacked lines with interference pattern
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const wave1 = Math.sin(z * 0.8) * 5;
+        const wave2 = Math.sin(z * 1.2) * 4;
+        const interference = Math.sin(z * 0.2) * 2;
+        const x = wave1 + wave2 + interference;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateStandingWave(index, totalPoints) {
+        // Create stacked lines with standing wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const standing = Math.sin(z * 0.6) * Math.cos(z * 0.2) * 6;
+        const x = standing;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateTravelingWave(index, totalPoints) {
+        // Create stacked lines with traveling wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const traveling = Math.sin(z * 0.4 + z * 0.1) * 6;
+        const x = traveling;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateModulatedWave(index, totalPoints) {
+        // Create stacked lines with amplitude modulated wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const carrier = Math.sin(z * 0.8) * 5;
+        const modulation = Math.sin(z * 0.2) * 2;
+        const x = carrier * (1 + modulation * 0.5);
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateHarmonicWave(index, totalPoints) {
+        // Create stacked lines with harmonic series
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const fundamental = Math.sin(z * 0.4) * 4;
+        const harmonic1 = Math.sin(z * 0.8) * 2;
+        const harmonic2 = Math.sin(z * 1.2) * 1.5;
+        const x = fundamental + harmonic1 + harmonic2;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateChaoticWave(index, totalPoints) {
+        // Create stacked lines with chaotic wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const chaotic = Math.sin(z * 0.7) * Math.cos(z * 1.1) * 5;
+        const x = chaotic + Math.sin(z * 0.9) * 2;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateSpiralWave(index, totalPoints) {
+        // Create stacked lines with spiral-like wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const spiral = Math.sin(z * 0.6) * Math.cos(z * 0.3) * 6;
+        const x = spiral + Math.sin(z * 0.4) * 2;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateRadialWave(index, totalPoints) {
+        // Create stacked lines with radial wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const radial = Math.sin(z * 0.5) * 5;
+        const x = radial + Math.sin(z * 0.8) * 2;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateConcentricWave(index, totalPoints) {
+        // Create stacked lines with concentric wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const concentric = Math.sin(z * 0.7) * 4;
+        const x = concentric + Math.sin(z * 1.1) * 2;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateCrossWave(index, totalPoints) {
+        // Create stacked lines with cross wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const x = Math.sin(z * 0.4) * 5;
+        const y = Math.sin(z * 0.6) * 4; // Cross wave has Y variation
+        
+        return { x, y, z };
+    }
+    
+    generateOrganicWave(index, totalPoints) {
+        // Create stacked lines with organic wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const organic = Math.sin(z * 0.5) * Math.cos(z * 0.3) * 5;
+        const x = organic + Math.sin(z * 0.7) * 2;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateGeometricWave(index, totalPoints) {
+        // Create stacked lines with geometric wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const geometric = Math.floor(z * 0.2) * 0.8;
+        const x = Math.sin(z * 0.4) * 4 + geometric;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateNebulaWave(index, totalPoints) {
+        // Create stacked lines with nebula-like wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const nebula = Math.sin(z * 0.6) * Math.cos(z * 0.4) * 5;
+        const x = nebula + Math.sin(z * 0.8) * 2;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateCosmicWave(index, totalPoints) {
+        // Create stacked lines with cosmic wave
+        const t = index / totalPoints;
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
+        const cosmic1 = Math.sin(z * 0.7) * 4;
+        const cosmic2 = Math.cos(z * 0.9) * 3;
+        const cosmic3 = Math.sin(z * 1.1) * 2;
+        const x = cosmic1 + cosmic2 + cosmic3;
+        const y = 0; // All lines at same Y level
+        
+        return { x, y, z };
+    }
+    
+    generateCurrentWaveShape() {
+        // Regenerate the current wave shape without cycling to the next one
+        // Remove existing points
+        if (this.points) {
+            this.scene.remove(this.points);
+        }
+        
+        // Create a group to hold all the spheres
+        this.points = new THREE.Group();
+        
+        // Create sphere geometry and material once for efficiency
+        const sphereGeometry = new THREE.SphereGeometry(this.pointRadius, 8, 6);
+        const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
+        
+        // Get current wave type without incrementing index
+        const currentVariation = this.currentWaveType;
+        
+        console.log('Regenerating wave variation:', currentVariation);
+        
+        for (let i = 0; i < this.numPoints; i++) {
+            let x, y, z;
+            
+            switch (currentVariation) {
+                case 'sineWave':
+                    ({ x, y, z } = this.generateSineWave(i, this.numPoints));
+                    break;
+                case 'cosineWave':
+                    ({ x, y, z } = this.generateCosineWave(i, this.numPoints));
+                    break;
+                case 'squareWave':
+                    ({ x, y, z } = this.generateSquareWave(i, this.numPoints));
+                    break;
+                case 'triangleWave':
+                    ({ x, y, z } = this.generateTriangleWave(i, this.numPoints));
+                    break;
+                case 'sawtoothWave':
+                    ({ x, y, z } = this.generateSawtoothWave(i, this.numPoints));
+                    break;
+                case 'doubleWave':
+                    ({ x, y, z } = this.generateDoubleWave(i, this.numPoints));
+                    break;
+                case 'interferenceWave':
+                    ({ x, y, z } = this.generateInterferenceWave(i, this.numPoints));
+                    break;
+                case 'standingWave':
+                    ({ x, y, z } = this.generateStandingWave(i, this.numPoints));
+                    break;
+                case 'travelingWave':
+                    ({ x, y, z } = this.generateTravelingWave(i, this.numPoints));
+                    break;
+                case 'modulatedWave':
+                    ({ x, y, z } = this.generateModulatedWave(i, this.numPoints));
+                    break;
+                case 'harmonicWave':
+                    ({ x, y, z } = this.generateHarmonicWave(i, this.numPoints));
+                    break;
+                case 'chaoticWave':
+                    ({ x, y, z } = this.generateChaoticWave(i, this.numPoints));
+                    break;
+                case 'spiralWave':
+                    ({ x, y, z } = this.generateSpiralWave(i, this.numPoints));
+                    break;
+                case 'radialWave':
+                    ({ x, y, z } = this.generateRadialWave(i, this.numPoints));
+                    break;
+                case 'concentricWave':
+                    ({ x, y, z } = this.generateConcentricWave(i, this.numPoints));
+                    break;
+                case 'crossWave':
+                    ({ x, y, z } = this.generateCrossWave(i, this.numPoints));
+                    break;
+                case 'organicWave':
+                    ({ x, y, z } = this.generateOrganicWave(i, this.numPoints));
+                    break;
+                case 'geometricWave':
+                    ({ x, y, z } = this.generateGeometricWave(i, this.numPoints));
+                    break;
+                case 'nebulaWave':
+                    ({ x, y, z } = this.generateNebulaWave(i, this.numPoints));
+                    break;
+                case 'cosmicWave':
+                    ({ x, y, z } = this.generateCosmicWave(i, this.numPoints));
+                    break;
+            }
+            
+            // Create individual sphere mesh
+            const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+            sphere.position.set(x, y, z);
+            this.points.add(sphere);
+        }
+        
+        this.scene.add(this.points);
+    }
+    
     getCurrentBlobType() {
         // Get the current blob type based on blob index
         const blobVariations = [
@@ -210,6 +634,8 @@ class PointVisualizer {
         // Regenerate based on current mode without cycling shapes
         if (this.currentMode === 'ripples') {
             this.generateRipplePoints(false); // false = don't cycle to next variation
+        } else if (this.currentMode === 'waves') {
+            this.generateCurrentWaveShape(); // Regenerate current wave type
         } else {
             this.generatePoints();
         }
@@ -1006,68 +1432,96 @@ class PointVisualizer {
     }
     
     setupControls() {
-        const radiusSlider = document.getElementById('pointRadius');
-        const pointsSlider = document.getElementById('numPoints');
+        // Point radius slider
+        const pointRadiusSlider = document.getElementById('pointRadius');
         
-        const radiusValue = document.getElementById('radiusValue');
-        const pointsValue = document.getElementById('pointsValue');
+        // Set initial fill
+        pointRadiusSlider.style.setProperty('--value-percent', '50%');
         
-        radiusSlider.addEventListener('input', (e) => {
+        pointRadiusSlider.addEventListener('input', (e) => {
             this.pointRadius = parseFloat(e.target.value);
-            radiusValue.textContent = this.pointRadius.toFixed(2);
             
-            // Update existing point sizes without regenerating the shape
+            // Update slider fill
+            const percent = ((this.pointRadius - 0.01) / (0.1 - 0.01)) * 100;
+            pointRadiusSlider.style.setProperty('--value-percent', percent + '%');
+            
+            // Update existing points without regenerating
             if (this.points && this.points.children.length > 0) {
-                const newGeometry = new THREE.SphereGeometry(this.pointRadius, 8, 6);
                 this.points.children.forEach(child => {
-                    child.geometry = newGeometry;
+                    if (child.geometry) {
+                        child.geometry.dispose();
+                        child.geometry = new THREE.SphereGeometry(this.pointRadius, 8, 6);
+                    }
                 });
             }
         });
         
-        pointsSlider.addEventListener('input', (e) => {
-            const newNumPoints = parseInt(e.target.value);
-            this.numPoints = newNumPoints;
-            pointsValue.textContent = this.numPoints;
+        // Number of points slider
+        const numPointsSlider = document.getElementById('numPoints');
+        
+        // Set initial fill
+        numPointsSlider.style.setProperty('--value-percent', '50%');
+        
+        numPointsSlider.addEventListener('input', (e) => {
+            this.numPoints = parseInt(e.target.value);
             
-            // Regenerate current blob shape with new number of points
+            // Update slider fill
+            const percent = ((this.numPoints - 100) / (10000 - 100)) * 100;
+            numPointsSlider.style.setProperty('--value-percent', percent + '%');
+            
+            // Regenerate current shape with new number of points
             if (this.currentMode === 'sphere') {
-                // For blob mode, regenerate the same blob type without cycling
                 this.generateCurrentBlobShape();
-            } else {
-                // For ripple mode, regenerate ripples
+            } else if (this.currentMode === 'ripples') {
                 this.generateRipplePoints(false);
+            } else if (this.currentMode === 'waves') {
+                this.generateCurrentWaveShape();
             }
         });
         
-        // Add shape slider functionality
+        // Shape slider
         const shapeSlider = document.getElementById('shape');
-        const shapeValue = document.getElementById('shapeValue');
+        
+        // Set initial fill
+        shapeSlider.style.setProperty('--value-percent', '50%');
         
         shapeSlider.addEventListener('input', (e) => {
             this.shape = parseFloat(e.target.value);
-            shapeValue.textContent = this.shape.toFixed(2);
             
-            // If in ripple mode, cycle through ripple variations
+            // Update slider fill
+            const percent = this.shape * 100;
+            shapeSlider.style.setProperty('--value-percent', percent + '%');
+            
+            // Update shape based on current mode
             if (this.currentMode === 'ripples') {
-                this.rippleIndex = Math.floor(this.shape * 20); // Map 0-1 range to 0-19 index for 20 ripple types
-                this.generateRipplePoints(false); // false = don't increment index
+                // Map shape (0-1) to ripple index (0-19)
+                this.rippleIndex = Math.floor(this.shape * 19);
+                this.generateRipplePoints(false);
+            } else if (this.currentMode === 'waves') {
+                // Map shape (0-1) to wave index (0-19)
+                this.waveIndex = Math.floor(this.shape * 19);
+                this.generateWaves();
             } else {
-                // For blob mode, regenerate with current shape parameter
+                // For blob mode, regenerate current shape
                 this.regenerateCurrentMode();
             }
         });
         
-        // Add new shape button functionality
-        const newShapeBtn = document.getElementById('newShapeBtn');
-        newShapeBtn.addEventListener('click', () => {
-            this.generatePoints(); // This will cycle through blob variations
-        });
+        // Radio button event listeners for shape type selection
+        const radioButtons = document.querySelectorAll('input[name="shapeType"]');
         
-        // Add ripples button functionality
-        const ripplesBtn = document.getElementById('ripplesBtn');
-        ripplesBtn.addEventListener('click', () => {
-            this.generateRipplePoints(true); // true = cycle to next variation
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', (e) => {
+                const selectedValue = e.target.value;
+                
+                if (selectedValue === 'blobs') {
+                    this.generatePoints();
+                } else if (selectedValue === 'ripples') {
+                    this.generateRipplePoints(true);
+                } else if (selectedValue === 'waves') {
+                    this.generateWaves();
+                }
+            });
         });
     }
     
