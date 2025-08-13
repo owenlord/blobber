@@ -6,9 +6,9 @@ class PointVisualizer {
         this.points = null;
         this.controls = null;
         
-        this.pointDensity = 1.0;
         this.pointRadius = 0.1;
         this.numPoints = 1000;
+        this.shape = 0.5;
         
         this.isMouseDown = false;
         this.mouseX = 0;
@@ -61,30 +61,23 @@ class PointVisualizer {
         // Create a group to hold all the spheres
         this.points = new THREE.Group();
         
-        const clusterSize = 20 * this.pointDensity;
-        const numClusters = Math.max(1, Math.floor(this.numPoints / 1000));
-        
         // Create sphere geometry and material once for efficiency
         const sphereGeometry = new THREE.SphereGeometry(this.pointRadius, 8, 6);
         const sphereMaterial = new THREE.MeshBasicMaterial({ color: 0x000000 });
         
+        // Randomly choose a shape type for this generation
+        const shapeTypes = ['distortedSphere'];
+        const selectedShape = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+        
+        console.log('Generating shape:', selectedShape);
+        
         for (let i = 0; i < this.numPoints; i++) {
             let x, y, z;
             
-            if (numClusters > 1) {
-                // Create multiple clusters
-                const clusterIndex = Math.floor(i / (this.numPoints / numClusters));
-                const clusterOffsetX = (clusterIndex % 3 - 1) * clusterSize * 0.8;
-                const clusterOffsetY = (Math.floor(clusterIndex / 3) - 1) * clusterSize * 0.8;
-                
-                x = (Math.random() - 0.5) * clusterSize + clusterOffsetX;
-                y = (Math.random() - 0.5) * clusterSize + clusterOffsetY;
-                z = (Math.random() - 0.5) * clusterSize;
-            } else {
-                // Single cluster
-                x = (Math.random() - 0.5) * clusterSize;
-                y = (Math.random() - 0.5) * clusterSize;
-                z = (Math.random() - 0.5) * clusterSize;
+            switch (selectedShape) {
+                case 'distortedSphere':
+                    ({ x, y, z } = this.generateDistortedSpherePoint(i, this.numPoints));
+                    break;
             }
             
             // Create individual sphere mesh
@@ -96,20 +89,31 @@ class PointVisualizer {
         this.scene.add(this.points);
     }
     
+    generateDistortedSpherePoint(index, totalPoints) {
+        // Generate points on a sphere with distortion
+        const phi = Math.acos(1 - 2 * Math.random());
+        const theta = Math.random() * Math.PI * 2;
+        
+        let radius = 10;
+        
+        // Add distortion based on position and shape parameter
+        const distortionIntensity = this.shape * 4; // Shape controls distortion strength
+        const distortion = Math.sin(phi * (3 + this.shape * 2)) * Math.cos(theta * (2 + this.shape * 3)) * distortionIntensity;
+        radius += distortion;
+        
+        const x = radius * Math.sin(phi) * Math.cos(theta);
+        const y = radius * Math.sin(phi) * Math.sin(theta);
+        const z = radius * Math.cos(phi);
+        
+        return { x, y, z };
+    }
+    
     setupControls() {
-        const densitySlider = document.getElementById('pointDensity');
         const radiusSlider = document.getElementById('pointRadius');
         const pointsSlider = document.getElementById('numPoints');
         
-        const densityValue = document.getElementById('densityValue');
         const radiusValue = document.getElementById('radiusValue');
         const pointsValue = document.getElementById('pointsValue');
-        
-        densitySlider.addEventListener('input', (e) => {
-            this.pointDensity = parseFloat(e.target.value);
-            densityValue.textContent = this.pointDensity.toFixed(1);
-            this.generatePoints();
-        });
         
         radiusSlider.addEventListener('input', (e) => {
             this.pointRadius = parseFloat(e.target.value);
@@ -121,6 +125,22 @@ class PointVisualizer {
         pointsSlider.addEventListener('input', (e) => {
             this.numPoints = parseInt(e.target.value);
             pointsValue.textContent = this.numPoints;
+            this.generatePoints();
+        });
+        
+        // Add shape slider functionality
+        const shapeSlider = document.getElementById('shape');
+        const shapeValue = document.getElementById('shapeValue');
+        
+        shapeSlider.addEventListener('input', (e) => {
+            this.shape = parseFloat(e.target.value);
+            shapeValue.textContent = this.shape.toFixed(2);
+            this.generatePoints();
+        });
+        
+        // Add new shape button functionality
+        const newShapeBtn = document.getElementById('newShapeBtn');
+        newShapeBtn.addEventListener('click', () => {
             this.generatePoints();
         });
     }
