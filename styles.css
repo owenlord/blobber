@@ -166,23 +166,24 @@ body {
     min-width: 80px;
     text-align: center;
     position: relative;
+    color: #ccc;
 }
 
 .radio-custom::before {
     content: '';
     position: absolute;
-    left: 8px;
-    top: 50%;
+    left: 4px;
+    top: 53%;
     transform: translateY(-50%);
-    width: 4px;
-    height: 4px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: #ccc;
     transition: background 0.15s ease;
 }
 
-.radio-option input[type="radio"]:checked + .radio-custom::before {
-    background: black;
+.radio-option input[type="radio"]:checked + .radio-custom {
+    color: black;
 }
 
 .radio-option:hover .radio-custom::before {
