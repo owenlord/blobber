@@ -6,7 +6,8 @@
     <title>3D Point Visualizer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -32,12 +33,6 @@
             
             <div class="sliders-section">
                 <h3 class="group-title">Tuning</h3>
-                
-                <div class="control-group">
-                    <label for="shape">Form</label>
-                    <input type="range" id="shape" min="0" max="1" step="0.01" value="0.5">
-                </div>
-                
                 <div class="control-group">
                     <label for="pointRadius">Size</label>
                     <input type="range" id="pointRadius" min="0.01" max="0.1" step="0.01" value="0.03">
@@ -47,10 +42,30 @@
                     <label for="numPoints">Points</label>
                     <input type="range" id="numPoints" min="100" max="10000" step="100" value="5000">
                 </div>
+                
+                <div class="control-group">
+                    <label for="shape">Form</label>
+                    <input type="range" id="shape" min="0" max="1" step="0.01" value="0.5">
+                </div>
             </div>
         </div>
         
         <div id="canvas-container"></div>
+        
+        <!-- Top right controls -->
+        <div class="top-controls">
+            <button id="playPauseBtn" class="control-btn play-pause-btn">
+                <i data-lucide="play" class="icon"></i>
+                <i data-lucide="pause" class="icon" style="display: none;"></i>
+            </button>
+            <button id="fullscreenBtn" class="control-btn">
+                <i data-lucide="maximize-2" class="icon"></i>
+            </button>
+            <button id="printScreenBtn" class="control-btn">
+                <i data-lucide="camera" class="icon"></i>
+            </button>
+        </div>
+        
     </div>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>

@@ -22,6 +22,10 @@ class PointVisualizer {
         this.cameraRotationX = 0;
         this.cameraRotationY = 0;
         
+        // Animation properties
+        this.animationTime = 0;
+        this.isAnimating = false;
+        
         this.init();
         this.setupControls();
         this.animate();
@@ -1523,6 +1527,89 @@ class PointVisualizer {
                 }
             });
         });
+
+        // Play/Pause button functionality
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        let isPlaying = false;
+        
+        playPauseBtn.addEventListener('click', () => {
+            isPlaying = !isPlaying;
+            
+            if (isPlaying) {
+                playPauseBtn.classList.add('playing');
+                this.isAnimating = true;
+            } else {
+                playPauseBtn.classList.remove('playing');
+                this.isAnimating = false;
+            }
+            
+            // Debug logging
+            console.log('Button clicked, isPlaying:', isPlaying);
+            console.log('Button classes:', playPauseBtn.className);
+            console.log('Animation state:', this.isAnimating);
+        });
+
+        // Initialize Lucide icons
+        if (window.lucide) {
+            lucide.createIcons();
+            console.log('Lucide icons initialized');
+            
+            // Debug: Check icon elements
+            const playIcon = playPauseBtn.querySelector('[data-lucide="play"]');
+            const pauseIcon = playPauseBtn.querySelector('[data-lucide="pause"]');
+            console.log('Play icon element:', playIcon);
+            console.log('Pause icon element:', pauseIcon);
+            console.log('Play icon display:', window.getComputedStyle(playIcon).display);
+            console.log('Pause icon display:', window.getComputedStyle(pauseIcon).display);
+        } else {
+            console.log('Lucide not available');
+        }
+
+        // Fullscreen button functionality
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const controlsPanel = document.querySelector('.controls');
+        
+        fullscreenBtn.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('Error attempting to enable fullscreen:', err);
+                });
+            } else {
+                document.exitFullscreen();
+            }
+        });
+
+        // Listen for fullscreen changes to update icon and hide/show controls
+        document.addEventListener('fullscreenchange', () => {
+            const fullscreenIcon = fullscreenBtn.querySelector('.icon');
+            if (document.fullscreenElement) {
+                fullscreenIcon.setAttribute('data-lucide', 'minimize-2');
+                // Hide control panel with animation
+                controlsPanel.classList.add('fullscreen-hidden');
+            } else {
+                fullscreenIcon.setAttribute('data-lucide', 'maximize-2');
+                // Show control panel with animation
+                controlsPanel.classList.remove('fullscreen-hidden');
+            }
+            // Reinitialize the icon
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        });
+
+        // Print screen button functionality
+        const printScreenBtn = document.getElementById('printScreenBtn');
+        printScreenBtn.addEventListener('click', () => {
+            // Create a canvas element to capture the current view
+            const canvas = this.renderer.domElement;
+            const dataURL = canvas.toDataURL('image/png');
+            
+            // Create a download link
+            const link = document.createElement('a');
+            link.download = '3d-visualization.png';
+            link.href = dataURL;
+            link.click();
+        });
     }
     
     onMouseDown(event) {
@@ -1582,6 +1669,33 @@ class PointVisualizer {
     
     animate() {
         requestAnimationFrame(this.animate.bind(this));
+        
+        // Animate points if playing
+        if (this.isAnimating && this.points) {
+            this.animationTime += 0.02; // Animation speed
+            
+            // Animate each point with subtle oscillation
+            this.points.children.forEach((point, index) => {
+                if (point.geometry) {
+                    // Store original position if not already stored
+                    if (!point.userData.originalPosition) {
+                        point.userData.originalPosition = {
+                            x: point.position.x,
+                            y: point.position.y,
+                            z: point.position.z
+                        };
+                    }
+                    
+                    const original = point.userData.originalPosition;
+                    const time = this.animationTime + index * 0.1; // Offset each point slightly
+                    
+                    // Subtle oscillation in all three dimensions
+                    point.position.x = original.x + Math.sin(time * 0.5) * 0.3;
+                    point.position.y = original.y + Math.cos(time * 0.7) * 0.3;
+                    point.position.z = original.z + Math.sin(time * 0.3) * 0.3;
+                }
+            });
+        }
         
         this.renderer.render(this.scene, this.camera);
     }
