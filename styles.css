@@ -186,6 +186,10 @@ body {
     color: black;
 }
 
+.radio-option input[type="radio"]:checked + .radio-custom::before {
+    background: black;
+}
+
 .radio-option:hover .radio-custom::before {
     background: #999;
 }

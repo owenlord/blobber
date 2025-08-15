@@ -240,224 +240,224 @@ class PointVisualizer {
     }
     
     generateSineWave(index, totalPoints) {
-        // Create stacked lines like Joy Division Unknown Pleasures
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
-        const z = (t - 0.5) * 20; // Z range from -10 to 10 (stacked lines)
+        const z = (t - 0.5) * 20; // Z range from -10 to 10
         const x = Math.sin(z * 0.5) * 8; // Wave amplitude
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateCosineWave(index, totalPoints) {
-        // Create stacked lines with cosine wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const x = Math.cos(z * 0.5) * 8; // Cosine wave amplitude
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateSquareWave(index, totalPoints) {
-        // Create stacked lines with square wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const x = Math.sign(Math.sin(z * 0.5)) * 6; // Square wave
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateTriangleWave(index, totalPoints) {
-        // Create stacked lines with triangle wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const phase = (z * 0.5) % (2 * Math.PI);
         const x = (phase < Math.PI ? phase : 2 * Math.PI - phase) * 2 - Math.PI; // Triangle wave
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateSawtoothWave(index, totalPoints) {
-        // Create stacked lines with sawtooth wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const x = ((z * 0.5) % (2 * Math.PI) - Math.PI) * 1.5; // Sawtooth wave
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateDoubleWave(index, totalPoints) {
-        // Create stacked lines with double wave interference
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const wave1 = Math.sin(z * 0.5) * 4;
         const wave2 = Math.sin(z * 0.8) * 3;
         const x = wave1 + wave2; // Combined waves
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateInterferenceWave(index, totalPoints) {
-        // Create stacked lines with interference pattern
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const wave1 = Math.sin(z * 0.8) * 5;
         const wave2 = Math.sin(z * 1.2) * 4;
         const interference = Math.sin(z * 0.2) * 2;
         const x = wave1 + wave2 + interference;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateStandingWave(index, totalPoints) {
-        // Create stacked lines with standing wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const standing = Math.sin(z * 0.6) * Math.cos(z * 0.2) * 6;
         const x = standing;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateTravelingWave(index, totalPoints) {
-        // Create stacked lines with traveling wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const traveling = Math.sin(z * 0.4 + z * 0.1) * 6;
         const x = traveling;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateModulatedWave(index, totalPoints) {
-        // Create stacked lines with amplitude modulated wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const carrier = Math.sin(z * 0.8) * 5;
         const modulation = Math.sin(z * 0.2) * 2;
         const x = carrier * (1 + modulation * 0.5);
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateHarmonicWave(index, totalPoints) {
-        // Create stacked lines with harmonic series
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const fundamental = Math.sin(z * 0.4) * 4;
         const harmonic1 = Math.sin(z * 0.8) * 2;
         const harmonic2 = Math.sin(z * 1.2) * 1.5;
         const x = fundamental + harmonic1 + harmonic2;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateChaoticWave(index, totalPoints) {
-        // Create stacked lines with chaotic wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const chaotic = Math.sin(z * 0.7) * Math.cos(z * 1.1) * 5;
         const x = chaotic + Math.sin(z * 0.9) * 2;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateSpiralWave(index, totalPoints) {
-        // Create stacked lines with spiral-like wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const spiral = Math.sin(z * 0.6) * Math.cos(z * 0.3) * 6;
         const x = spiral + Math.sin(z * 0.4) * 2;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateRadialWave(index, totalPoints) {
-        // Create stacked lines with radial wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const radial = Math.sin(z * 0.5) * 5;
         const x = radial + Math.sin(z * 0.8) * 2;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateConcentricWave(index, totalPoints) {
-        // Create stacked lines with concentric wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const concentric = Math.sin(z * 0.7) * 4;
         const x = concentric + Math.sin(z * 1.1) * 2;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateCrossWave(index, totalPoints) {
-        // Create stacked lines with cross wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const x = Math.sin(z * 0.4) * 5;
-        const y = Math.sin(z * 0.6) * 4; // Cross wave has Y variation
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateOrganicWave(index, totalPoints) {
-        // Create stacked lines with organic wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const organic = Math.sin(z * 0.5) * Math.cos(z * 0.3) * 5;
         const x = organic + Math.sin(z * 0.7) * 2;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateGeometricWave(index, totalPoints) {
-        // Create stacked lines with geometric wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const geometric = Math.floor(z * 0.2) * 0.8;
         const x = Math.sin(z * 0.4) * 4 + geometric;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateNebulaWave(index, totalPoints) {
-        // Create stacked lines with nebula-like wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const nebula = Math.sin(z * 0.6) * Math.cos(z * 0.4) * 5;
         const x = nebula + Math.sin(z * 0.8) * 2;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
     
     generateCosmicWave(index, totalPoints) {
-        // Create stacked lines with cosmic wave
+        // Create scattered points across multiple flowing waveforms
         const t = index / totalPoints;
         const z = (t - 0.5) * 20; // Z range from -10 to 10
         const cosmic1 = Math.sin(z * 0.7) * 4;
         const cosmic2 = Math.cos(z * 0.9) * 3;
         const cosmic3 = Math.sin(z * 1.1) * 2;
         const x = cosmic1 + cosmic2 + cosmic3;
-        const y = 0; // All lines at same Y level
+        const y = (Math.random() - 0.5) * 16; // Scatter Y across multiple levels
         
         return { x, y, z };
     }
