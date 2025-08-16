@@ -18,7 +18,7 @@ class PointVisualizer {
         this.isMouseDown = false;
         this.mouseX = 0;
         this.mouseY = 0;
-        this.cameraDistance = 50;
+        this.cameraDistance = 25;
         this.cameraRotationX = 0;
         this.cameraRotationY = 0;
         
@@ -88,7 +88,7 @@ class PointVisualizer {
         // Store the current blob type before incrementing
         this.currentBlobType = currentVariation;
         
-        console.log('Generating blob variation:', currentVariation);
+
         
         for (let i = 0; i < this.numPoints; i++) {
             let x, y, z;
@@ -166,7 +166,7 @@ class PointVisualizer {
         // Store the current wave type before any potential index changes
         this.currentWaveType = currentVariation;
         
-        console.log('Generating wave variation:', currentVariation);
+
         
         for (let i = 0; i < this.numPoints; i++) {
             let x, y, z;
@@ -483,7 +483,7 @@ class PointVisualizer {
         // Get current wave type without incrementing index
         const currentVariation = this.currentWaveType;
         
-        console.log('Regenerating wave variation:', currentVariation);
+
         
         for (let i = 0; i < this.numPoints; i++) {
             let x, y, z;
@@ -587,7 +587,7 @@ class PointVisualizer {
         // Get current blob type without incrementing index
         const currentVariation = this.currentBlobType;
         
-        console.log('Regenerating blob variation:', currentVariation);
+
         
         for (let i = 0; i < this.numPoints; i++) {
             let x, y, z;
@@ -670,7 +670,7 @@ class PointVisualizer {
         ];
         const currentVariation = rippleVariations[this.rippleIndex % rippleVariations.length];
         
-        console.log('Generating ripple variation:', currentVariation);
+
         
         for (let i = 0; i < this.numPoints; i++) {
             let x, y, z;
@@ -1543,26 +1543,12 @@ class PointVisualizer {
                 this.isAnimating = false;
             }
             
-            // Debug logging
-            console.log('Button clicked, isPlaying:', isPlaying);
-            console.log('Button classes:', playPauseBtn.className);
-            console.log('Animation state:', this.isAnimating);
+
         });
 
         // Initialize Lucide icons
         if (window.lucide) {
             lucide.createIcons();
-            console.log('Lucide icons initialized');
-            
-            // Debug: Check icon elements
-            const playIcon = playPauseBtn.querySelector('[data-lucide="play"]');
-            const pauseIcon = playPauseBtn.querySelector('[data-lucide="pause"]');
-            console.log('Play icon element:', playIcon);
-            console.log('Pause icon element:', pauseIcon);
-            console.log('Play icon display:', window.getComputedStyle(playIcon).display);
-            console.log('Pause icon display:', window.getComputedStyle(pauseIcon).display);
-        } else {
-            console.log('Lucide not available');
         }
 
         // Fullscreen button functionality
@@ -1572,7 +1558,7 @@ class PointVisualizer {
         fullscreenBtn.addEventListener('click', () => {
             if (!document.fullscreenElement) {
                 document.documentElement.requestFullscreen().catch(err => {
-                    console.log('Error attempting to enable fullscreen:', err);
+                    // Handle fullscreen error silently
                 });
             } else {
                 document.exitFullscreen();
@@ -1581,15 +1567,26 @@ class PointVisualizer {
 
         // Listen for fullscreen changes to update icon and hide/show controls
         document.addEventListener('fullscreenchange', () => {
-            const fullscreenIcon = fullscreenBtn.querySelector('.icon');
+            const fullscreenBtn = document.getElementById('fullscreenBtn');
+            const fullscreenIcon = fullscreenBtn.querySelector('.fullscreen-icon');
+            const controlsPanel = document.querySelector('.controls');
+            
+
+            
             if (document.fullscreenElement) {
-                fullscreenIcon.setAttribute('data-lucide', 'minimize-2');
-                // Hide control panel with animation
+                if (fullscreenIcon) {
+                    fullscreenIcon.setAttribute('data-lucide', 'minimize-2');
+                }
+                // Hide control panel with smooth animation
                 controlsPanel.classList.add('fullscreen-hidden');
+
             } else {
-                fullscreenIcon.setAttribute('data-lucide', 'maximize-2');
-                // Show control panel with animation
+                if (fullscreenIcon) {
+                    fullscreenIcon.setAttribute('data-lucide', 'maximize-2');
+                }
+                // Show control panel with smooth animation
                 controlsPanel.classList.remove('fullscreen-hidden');
+
             }
             // Reinitialize the icon
             if (window.lucide) {
@@ -1597,18 +1594,71 @@ class PointVisualizer {
             }
         });
 
+
+
         // Print screen button functionality
         const printScreenBtn = document.getElementById('printScreenBtn');
         printScreenBtn.addEventListener('click', () => {
-            // Create a canvas element to capture the current view
+            
+            // Force a render to ensure the scene is up to date
+            this.renderer.render(this.scene, this.camera);
+            
+            // Get the current canvas
             const canvas = this.renderer.domElement;
-            const dataURL = canvas.toDataURL('image/png');
+            
+            // Create a temporary canvas for A4 print-ready capture
+            const tempCanvas = document.createElement('canvas');
+            const tempContext = tempCanvas.getContext('2d');
+            
+            // A4 dimensions in pixels at 300 DPI (print quality)
+            // A4 is 210mm x 297mm, at 300 DPI = 2480 x 3508 pixels
+            const a4Width = 2480;
+            const a4Height = 3508;
+            
+            tempCanvas.width = a4Width;
+            tempCanvas.height = a4Height;
+            
+            // Fill with white background for print
+            tempContext.fillStyle = 'white';
+            tempContext.fillRect(0, 0, a4Width, a4Height);
+            
+            // Calculate scaling to fit the Three.js canvas within A4 while maintaining aspect ratio
+            const canvasAspect = canvas.width / canvas.height;
+            const a4Aspect = a4Width / a4Height;
+            
+            let drawWidth, drawHeight, offsetX, offsetY;
+            
+            if (canvasAspect > a4Aspect) {
+                // Canvas is wider than A4, fit to width
+                drawWidth = a4Width * 0.8; // Leave 10% margin on each side
+                drawHeight = drawWidth / canvasAspect;
+                offsetX = (a4Width - drawWidth) / 2;
+                offsetY = (a4Height - drawHeight) / 2;
+            } else {
+                // Canvas is taller than A4, fit to height
+                drawHeight = a4Height * 0.8; // Leave 10% margin on each side
+                drawWidth = drawHeight * canvasAspect;
+                offsetX = (a4Width - drawWidth) / 2;
+                offsetY = (a4Height - drawHeight) / 2;
+            }
+            
+            // Draw the Three.js canvas onto the A4 canvas
+            tempContext.drawImage(canvas, offsetX, offsetY, drawWidth, drawHeight);
+            
+            // Convert to high-quality PNG
+            const dataURL = tempCanvas.toDataURL('image/png', 1.0);
             
             // Create a download link
             const link = document.createElement('a');
-            link.download = '3d-visualization.png';
+            link.download = `3d-visualization-a4-${new Date().toISOString().slice(0, 19).replace(/:/g, '-')}.png`;
             link.href = dataURL;
+            
+            // Trigger download
+            document.body.appendChild(link);
             link.click();
+            document.body.removeChild(link);
+            
+
         });
     }
     

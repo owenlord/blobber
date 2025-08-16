@@ -33,6 +33,12 @@
             
             <div class="sliders-section">
                 <h3 class="group-title">Tuning</h3>
+                
+                <div class="control-group">
+                    <label for="shape">Form</label>
+                    <input type="range" id="shape" min="0" max="1" step="0.01" value="0.5">
+                </div>
+                
                 <div class="control-group">
                     <label for="pointRadius">Size</label>
                     <input type="range" id="pointRadius" min="0.01" max="0.1" step="0.01" value="0.03">
@@ -43,10 +49,6 @@
                     <input type="range" id="numPoints" min="100" max="10000" step="100" value="5000">
                 </div>
                 
-                <div class="control-group">
-                    <label for="shape">Form</label>
-                    <input type="range" id="shape" min="0" max="1" step="0.01" value="0.5">
-                </div>
             </div>
         </div>
         
@@ -55,14 +57,14 @@
         <!-- Top right controls -->
         <div class="top-controls">
             <button id="playPauseBtn" class="control-btn play-pause-btn">
-                <i data-lucide="play" class="icon"></i>
-                <i data-lucide="pause" class="icon" style="display: none;"></i>
+                <i data-lucide="play" class="play-icon"></i>
+                <i data-lucide="pause" class="pause-icon"></i>
             </button>
             <button id="fullscreenBtn" class="control-btn">
-                <i data-lucide="maximize-2" class="icon"></i>
+                <i data-lucide="maximize-2" class="fullscreen-icon"></i>
             </button>
             <button id="printScreenBtn" class="control-btn">
-                <i data-lucide="camera" class="icon"></i>
+                <i data-lucide="camera"></i>
             </button>
         </div>
         

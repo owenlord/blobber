@@ -33,14 +33,15 @@ body {
     background-color: white;
     border-top: 1px solid #f2f2f2;
     border-left: 1px solid #f2f2f2;
+    
     padding: 20px 40px;
+    z-index: 10;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-start;
     gap: 40px;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 10;
 }
 
 /* Control panel animation for fullscreen */
@@ -52,8 +53,9 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    padding-right: 40px;
+    min-width: 120px;
     border-right: 1px solid #f2f2f2;
+    padding-right: 40px;
 }
 
 .group-title {
@@ -71,9 +73,74 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
+    min-width: 200px;
 }
 
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
 
+.radio-option {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 200;
+    letter-spacing: 0.5px;
+    color: black;
+    height: 41px;
+}
+
+.radio-option input[type="radio"] {
+    display: none;
+}
+
+.radio-custom {
+    padding: 8px 16px;
+    background: white;
+    transition: all 0.15s ease;
+    min-width: 80px;
+    text-align: center;
+    position: relative;
+    color: #ccc;
+    transition: color 0.2s ease;
+}
+
+.radio-custom::before {
+    content: '';
+    position: absolute;
+    left: 4px;
+    top: 53%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ccc;
+    transition: background 0.2s ease;
+}
+
+.radio-option input[type="radio"]:checked + .radio-custom {
+    color: black;
+}
+
+.radio-option input[type="radio"]:checked + .radio-custom::before {
+    background: black;
+}
+
+.radio-option:hover .radio-custom::before {
+    background: #999;
+}
+
+.radio-option:hover .radio-custom {
+    color: #999;
+}
+
+.radio-option input[type="radio"]:checked:hover .radio-custom::before {
+    background: black;
+}
 
 .control-group {
     display: flex;
@@ -81,7 +148,7 @@ body {
     padding: 8px 16px;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
+    height: 41px;
 }
 
 .control-group label {
@@ -106,6 +173,7 @@ body {
     flex-shrink: 0;
     position: relative;
     cursor: pointer;
+    transition: background 0.2s ease;
 }
 
 .control-group input[type="range"]:hover {
@@ -145,66 +213,6 @@ body {
     background: linear-gradient(to right, black 0%, black calc(var(--value-percent) + 2%), #f2f2f2 calc(var(--value-percent) + 2%), #f2f2f2 100%);
     border: none;
 }
-.radio-group {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.radio-option {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 200;
-    letter-spacing: 0.5px;
-    color: black;
-    height: 41px;
-}
-
-.radio-option input[type="radio"] {
-    display: none;
-}
-
-.radio-custom {
-    padding: 8px 16px;
-    background: white;
-    transition: all 0.15s ease;
-    min-width: 80px;
-    text-align: center;
-    position: relative;
-    color: #ccc;
-}
-
-.radio-custom::before {
-    content: '';
-    position: absolute;
-    left: 4px;
-    top: 53%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: #ccc;
-    transition: background 0.15s ease;
-}
-
-.radio-option input[type="radio"]:checked + .radio-custom {
-    color: black;
-}
-
-.radio-option input[type="radio"]:checked + .radio-custom::before {
-    background: black;
-}
-
-.radio-option:hover .radio-custom::before {
-    background: #999;
-}
-
-.radio-option input[type="radio"]:checked:hover .radio-custom::before {
-    background: black;
-}
 
 .play-pause-btn {
     background: white;
@@ -230,32 +238,17 @@ body {
     color: black;
 }
 
-.play-pause-btn .icon {
-    display: block;
-}
-
-.play-pause-btn .icon[data-lucide="pause"] {
+/* Hide pause icon by default */
+.play-pause-btn .pause-icon {
     display: none;
 }
 
-.play-pause-btn.playing .icon[data-lucide="play"] {
+/* When playing, hide play icon and show pause icon */
+.play-pause-btn.playing .play-icon {
     display: none;
 }
 
-.play-pause-btn.playing .icon[data-lucide="pause"] {
-    display: block;
-}
-
-/* Handle Lucide SVG elements */
-.play-pause-btn svg[data-lucide="pause"] {
-    display: none;
-}
-
-.play-pause-btn.playing svg[data-lucide="play"] {
-    display: none;
-}
-
-.play-pause-btn.playing svg[data-lucide="pause"] {
+.play-pause-btn.playing .pause-icon {
     display: block;
 }
 
